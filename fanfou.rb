@@ -6,7 +6,7 @@ require 'rss/2.0'
 class Fanfou
 
   API_PATH = 'http://api.fanfou.com'
-  FORMATS = [:html, :rss, :xml, :json]
+  FORMATS = [:rss, :xml, :json]
 
   def initialize(l, p)
     @loginname = l
