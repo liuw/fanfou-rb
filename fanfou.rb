@@ -71,6 +71,10 @@ module Fanfou
       get(API[:public_timeline], params)
     end
 
+    def parse_json(json_data)
+      JSON.parse(json_data)
+    end
+
     def friends_timeline(count=20, since_id='', max_id='', page=1, format='')
       params = {
         'count' => count,
@@ -310,10 +314,7 @@ module Fanfou
         rescue
         end
       end
-      case response
-      when Net::HTTPSuccess, Net::HTTPRedirection then return true
-      else return false
-      end
+      parse_json(response.body)
     end
 
     def get(path, params)
@@ -329,7 +330,7 @@ module Fanfou
         rescue
         end
       end
-      response
+      parse_json(response.body)
     end
 
   end
