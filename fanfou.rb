@@ -1,3 +1,8 @@
+=begin
+Fanfou API binding for Ruby.
+Author: liuw can_be_reached_at liuw dot name
+=end
+
 require 'net/http'
 require 'json'
 
