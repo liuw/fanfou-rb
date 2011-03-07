@@ -1,4 +1,5 @@
 require 'net/http'
+require 'json'
 
 module Fanfou
   API_PATH = 'http://api.fanfou.com/'
@@ -69,9 +70,10 @@ module Fanfou
       get(API_PATH+'friends/ids.'+format.to_s)
     end
 
-    def get_public_timeline(format=:json)
+    def get_public_timeline(count=20, format=:json)
       return nil if not FORMATS.include?(format)
-      get(API_PATH+'statuses/public_timeline.'+format.to_s)
+      params = {'count'=>count}
+      get(API[:public_timeline]+'.'+format.to_s, params)
     end
 
     def friendships_create(uid)
@@ -112,11 +114,12 @@ module Fanfou
       end
     end
 
-    def get(path)
+    def get(path, params)
       return nil if not path
       response = nil
+      str_params = "?".concat(params.collect{|k,v| "#{k}=#{v.to_s}"}.join("&"))
       url = URI.parse(path)
-      req = Net::HTTP::Get.new(url.path)
+      req = Net::HTTP::Get.new(url.path+str_params)
       req.basic_auth @loginname, @password
       response = Net::HTTP.new(url.host, url.port).start do |http|
         begin
